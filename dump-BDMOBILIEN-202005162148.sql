@@ -1,8 +1,8 @@
 -- MariaDB dump 10.17  Distrib 10.4.6-MariaDB, for Linux (x86_64)
 --
--- Host: localhost    Database: BDMOBILIEN
+-- Host: 198.211.100.224    Database: BDMOBILIEN
 -- ------------------------------------------------------
--- Server version	10.4.6-MariaDB
+-- Server version	5.7.30-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `actividad`
+--
+
+DROP TABLE IF EXISTS `actividad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `actividad` (
+  `nid_actividad` int(11) NOT NULL AUTO_INCREMENT,
+  `cactividad` varchar(4000) DEFAULT NULL,
+  `dfechacreate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `nestado` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`nid_actividad`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `actividad`
+--
+
+LOCK TABLES `actividad` WRITE;
+/*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
+INSERT INTO `actividad` VALUES (1,'Actividad 1','2020-05-10 09:00:20',1),(2,'Actividad 2','2020-05-10 09:00:37',1),(3,'Actividad xyz','2020-05-10 09:00:50',1),(4,'other','2020-05-11 06:52:56',1),(5,'Actividad xxxx','2020-05-11 07:00:21',1),(6,'actividad modificado','2020-05-12 01:49:45',1),(7,'activida rthnmo','2020-05-11 07:01:02',1),(8,'actividad rtmno','2020-05-11 07:01:27',1),(9,'xxadasd','2020-05-12 23:43:07',1),(10,'sdasdsadasdasdasd','2020-05-12 23:43:37',1),(11,'asdad','2020-05-12 23:43:52',1),(12,'rweasdsadsafzdfsdfsdfsaz','2020-05-14 00:27:57',1),(13,'aaa','2020-05-14 00:28:12',1),(14,'aaa','2020-05-14 00:28:37',1),(15,'aaa','2020-05-14 00:29:13',1),(16,'aaa','2020-05-14 00:29:46',1),(17,'aaa','2020-05-14 00:30:07',1),(18,'aaa','2020-05-14 00:31:36',1),(19,'aaa','2020-05-14 00:32:55',1),(20,'aaa','2020-05-14 06:22:50',1),(21,'dffddffd','2020-05-14 19:02:13',1);
+/*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `bitacotramite`
 --
 
@@ -27,7 +53,7 @@ CREATE TABLE `bitacotramite` (
   `nid_estadotramite` int(11) DEFAULT NULL,
   `nid_fase` int(11) DEFAULT NULL,
   `cuser` varchar(400) DEFAULT NULL,
-  `dfecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `nestadofase` tinyint(4) DEFAULT NULL,
   `nestado` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`nid_bitacotramite`)
@@ -63,7 +89,7 @@ CREATE TABLE `constante` (
 
 LOCK TABLES `constante` WRITE;
 /*!40000 ALTER TABLE `constante` DISABLE KEYS */;
-INSERT INTO `constante` VALUES ('TIPO DE DOCUMENTOS',0,0),('DNI',0,1),('RUC',0,2),('PASAPORTE',0,3),('TIPO DE PERSONERIA',1,0),('NATURAL',1,1),('JURIDICA',1,2),('SEXO',3,0),('MASCULINO',3,1),('FEMENINO',3,2),('TRAMITES',2,0),('EN CALIFICACION',2,1),('OBSERVADO',2,2),('LIQUIDADO',2,3),('INSCRITO',2,4);
+INSERT INTO `constante` VALUES ('TIPO DE DOCUMENTOS',0,0),('DNI',0,1),('RUC',0,2),('PASAPORTE',0,3),('TIPO DE PERSONERIA',1,0),('NATURAL',1,1),('JURIDICA',1,2),('SEXO',3,0),('MASCULINO',3,1),('FEMENINO',3,2),('TRAMITES',2,0),('EN CALIFICACION',2,1),('OBSERVADO',2,2),('LIQUIDADO',2,3),('INSCRITO',2,4),('ETAPAS',4,0),('ETAPA 1',4,1),('ETAPA 2',4,2),('ETAPA 3',4,3),('ETAPA 4',4,4),('ETAPA 5',4,5),('ETAPA 6',4,6);
 /*!40000 ALTER TABLE `constante` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +105,7 @@ CREATE TABLE `districts` (
   `cnombre` varchar(600) DEFAULT NULL,
   `cubigeo_regions` varchar(100) DEFAULT NULL,
   `cubigeo_provinces` varchar(100) DEFAULT NULL,
-  `dfeccreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfeccreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `dfecupdate` timestamp NULL DEFAULT NULL,
   `nestado` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -105,10 +131,10 @@ DROP TABLE IF EXISTS `doctramite`;
 CREATE TABLE `doctramite` (
   `nid_doctramite` int(11) NOT NULL AUTO_INCREMENT,
   `casunto` varchar(8000) DEFAULT NULL,
-  `ccomentario` text DEFAULT NULL,
+  `ccomentario` text,
   `nid_servicio` int(11) DEFAULT NULL,
   `nid_proceso` int(11) DEFAULT NULL,
-  `dfecinicio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfecinicio` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `nidconsultor` int(11) DEFAULT NULL,
   `nicliente` int(11) DEFAULT NULL,
   `nestado` tinyint(4) DEFAULT NULL,
@@ -138,7 +164,7 @@ CREATE TABLE `documentopersona` (
   `ntipodoc` int(11) DEFAULT NULL,
   `cdocnro` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`nid_docpersona`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,8 +173,33 @@ CREATE TABLE `documentopersona` (
 
 LOCK TABLES `documentopersona` WRITE;
 /*!40000 ALTER TABLE `documentopersona` DISABLE KEYS */;
-INSERT INTO `documentopersona` VALUES (1,2,1,'21312321');
+INSERT INTO `documentopersona` VALUES (1,2,1,'21312321'),(2,3,1,'44197172');
 /*!40000 ALTER TABLE `documentopersona` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `estadoproyecto`
+--
+
+DROP TABLE IF EXISTS `estadoproyecto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `estadoproyecto` (
+  `nid_estadoproyecto` int(11) NOT NULL AUTO_INCREMENT,
+  `cestadoproyecto` varchar(200) DEFAULT NULL,
+  `nestado` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`nid_estadoproyecto`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `estadoproyecto`
+--
+
+LOCK TABLES `estadoproyecto` WRITE;
+/*!40000 ALTER TABLE `estadoproyecto` DISABLE KEYS */;
+INSERT INTO `estadoproyecto` VALUES (1,'TRAMITES',1),(2,'EN CALIFICACION',1),(3,'OBSERVADO',1),(4,'LIQUIDADO',1),(5,'INSCRITO',1);
+/*!40000 ALTER TABLE `estadoproyecto` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -164,7 +215,7 @@ CREATE TABLE `failed_jobs` (
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -179,32 +230,6 @@ LOCK TABLES `failed_jobs` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `fase`
---
-
-DROP TABLE IF EXISTS `fase`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fase` (
-  `nid_fase` int(11) NOT NULL AUTO_INCREMENT,
-  `cfase` varchar(4000) DEFAULT NULL,
-  `dfechacreate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `nestado` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`nid_fase`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fase`
---
-
-LOCK TABLES `fase` WRITE;
-/*!40000 ALTER TABLE `fase` DISABLE KEYS */;
-INSERT INTO `fase` VALUES (1,'HOLA+','2020-01-31 02:32:08',1),(2,'werewr','2020-01-31 02:32:30',0),(3,'SSSSS','2020-01-31 03:55:04',0),(4,'zzz','2020-01-31 03:55:16',1);
-/*!40000 ALTER TABLE `fase` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `fasetramite`
 --
 
@@ -215,7 +240,7 @@ CREATE TABLE `fasetramite` (
   `nid_estadotramite` int(11) NOT NULL AUTO_INCREMENT,
   `nid_doctramite` int(11) DEFAULT NULL,
   `nid_fase` int(11) DEFAULT NULL,
-  `dfecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `cuser` varchar(400) DEFAULT NULL,
   `nestadofase` tinyint(4) DEFAULT NULL,
   `nestado` tinyint(4) DEFAULT NULL,
@@ -282,6 +307,30 @@ LOCK TABLES `password_resets` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `permisoproyecto`
+--
+
+DROP TABLE IF EXISTS `permisoproyecto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permisoproyecto` (
+  `nid_permisoproyecto` int(11) NOT NULL AUTO_INCREMENT,
+  `nid_persona` int(11) DEFAULT NULL,
+  `nestado` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`nid_permisoproyecto`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permisoproyecto`
+--
+
+LOCK TABLES `permisoproyecto` WRITE;
+/*!40000 ALTER TABLE `permisoproyecto` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permisoproyecto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `persona`
 --
 
@@ -302,11 +351,11 @@ CREATE TABLE `persona` (
   `creferencia` varchar(150) DEFAULT NULL,
   `dfnacimiento` date DEFAULT NULL,
   `cciudad` varchar(100) DEFAULT NULL,
-  `dfeccreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfeccreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `npersoneria` tinyint(4) DEFAULT NULL,
   `nestado` int(11) DEFAULT NULL,
   PRIMARY KEY (`nid_persona`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -315,7 +364,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,NULL,'admin','admin','admin',1,'','','','','','2020-00-10','','2020-01-30 02:28:16',0,0),(2,1,'VALENTIN','PANDURO','GARCIA',1,'','954656456','','SAN JUAN',NULL,'2020-01-05',NULL,'2020-01-30 02:45:29',1,1);
+INSERT INTO `persona` VALUES (1,NULL,'admin','admin','admin',1,'','','','','','2020-00-10','','2020-01-30 02:28:16',0,0),(2,1,'VALENTIN','PANDURO','GARCIA',1,'','954656456','','SAN JUAN',NULL,'2020-01-05',NULL,'2020-01-30 02:45:29',1,1),(3,1,'MAYRA','VIVANCO','CAHUANA',1,'','954189939','aragcar@gmail.com','XXXXXXXXXXXXXXXXXXXXXXX',NULL,'1998-04-28','LIMA','2020-04-28 16:40:05',1,1);
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,6 +390,7 @@ CREATE TABLE `personageoubicacion` (
 
 LOCK TABLES `personageoubicacion` WRITE;
 /*!40000 ALTER TABLE `personageoubicacion` DISABLE KEYS */;
+INSERT INTO `personageoubicacion` VALUES (3,'150000','150600','150605',1);
 /*!40000 ALTER TABLE `personageoubicacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,7 +407,7 @@ CREATE TABLE `personaservicio` (
   `nid_servicio` int(11) DEFAULT NULL,
   `nestado` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`nid_personaservicio`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,7 +416,7 @@ CREATE TABLE `personaservicio` (
 
 LOCK TABLES `personaservicio` WRITE;
 /*!40000 ALTER TABLE `personaservicio` DISABLE KEYS */;
-INSERT INTO `personaservicio` VALUES (1,2,2,1);
+INSERT INTO `personaservicio` VALUES (1,2,2,1),(2,3,2,1);
 /*!40000 ALTER TABLE `personaservicio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -380,10 +430,10 @@ DROP TABLE IF EXISTS `proceso`;
 CREATE TABLE `proceso` (
   `nid_proceso` int(11) NOT NULL AUTO_INCREMENT,
   `cproceso` varchar(4000) DEFAULT NULL,
-  `dfechacreate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfechacreate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `nestado` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`nid_proceso`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -392,31 +442,34 @@ CREATE TABLE `proceso` (
 
 LOCK TABLES `proceso` WRITE;
 /*!40000 ALTER TABLE `proceso` DISABLE KEYS */;
-INSERT INTO `proceso` VALUES (1,'ASS','2020-01-31 01:42:04',0),(2,'a','2020-01-31 01:35:21',1),(3,'s','2020-01-31 01:40:27',1),(4,'s','2020-01-31 01:41:53',1);
+INSERT INTO `proceso` VALUES (1,'ASS','2020-01-31 01:42:04',0),(2,'PROCESOS SANEAMIENTO','2020-05-10 18:59:21',1),(3,'SUBDIVISIÓN','2020-05-07 13:06:08',0),(4,'HABILITACION URBANA','2020-05-10 18:59:00',0),(5,'MEDIDA CAUTELAR','2020-05-10 18:58:45',0),(6,'PROCESO EJECUTIVO','2020-05-10 18:58:23',0),(7,'pro 6','2020-05-10 18:58:09',0),(8,'pro 7','2020-05-10 18:58:02',0),(9,'PROCESO 2','2020-05-10 19:01:48',1),(10,'Proceso 3','2020-05-15 18:57:44',1);
 /*!40000 ALTER TABLE `proceso` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `procesofase`
+-- Table structure for table `procesoservicio`
 --
 
-DROP TABLE IF EXISTS `procesofase`;
+DROP TABLE IF EXISTS `procesoservicio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `procesofase` (
+CREATE TABLE `procesoservicio` (
+  `nid_procesoservicio` int(11) NOT NULL AUTO_INCREMENT,
+  `nid_servicio` int(11) DEFAULT NULL,
   `nid_proceso` int(11) DEFAULT NULL,
-  `nid_fase` int(11) DEFAULT NULL,
-  `nestado` tinyint(4) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `nestado` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`nid_procesoservicio`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `procesofase`
+-- Dumping data for table `procesoservicio`
 --
 
-LOCK TABLES `procesofase` WRITE;
-/*!40000 ALTER TABLE `procesofase` DISABLE KEYS */;
-/*!40000 ALTER TABLE `procesofase` ENABLE KEYS */;
+LOCK TABLES `procesoservicio` WRITE;
+/*!40000 ALTER TABLE `procesoservicio` DISABLE KEYS */;
+INSERT INTO `procesoservicio` VALUES (1,1,2,1),(2,1,3,0),(3,2,6,0),(4,3,4,0),(5,2,5,0),(6,2,5,0),(7,4,2,1),(8,5,2,1),(9,6,2,1),(10,7,2,1),(11,8,2,1),(12,9,2,1),(13,10,2,1),(14,11,2,1),(15,12,9,1),(16,13,9,1),(17,14,9,0),(18,14,9,1);
+/*!40000 ALTER TABLE `procesoservicio` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -430,7 +483,7 @@ CREATE TABLE `provinces` (
   `cubigeo_provinces` varchar(50) DEFAULT NULL,
   `cnombre` varchar(600) DEFAULT NULL,
   `cubigeo_regions` varchar(100) DEFAULT NULL,
-  `dfeccreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfeccreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `nestado` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -446,6 +499,35 @@ INSERT INTO `provinces` VALUES ('010100','Chachapoyas','010000','2020-01-30 00:4
 UNLOCK TABLES;
 
 --
+-- Table structure for table `proyecto`
+--
+
+DROP TABLE IF EXISTS `proyecto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `proyecto` (
+  `nid_proyecto` int(11) NOT NULL AUTO_INCREMENT,
+  `cproyecto` varchar(4000) DEFAULT NULL,
+  `nid_cliente` int(11) DEFAULT NULL,
+  `nid_procesoservicio` int(11) DEFAULT NULL,
+  `nid_servicioactividad` int(11) DEFAULT NULL,
+  `nid_estadoproyecto` int(11) DEFAULT NULL,
+  `nestado` int(11) DEFAULT NULL,
+  PRIMARY KEY (`nid_proyecto`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proyecto`
+--
+
+LOCK TABLES `proyecto` WRITE;
+/*!40000 ALTER TABLE `proyecto` DISABLE KEYS */;
+INSERT INTO `proyecto` VALUES (1,'NUEVO PROYECTO',2,1,1,2,1),(2,'DEMOSRACION',3,1,1,1,1);
+/*!40000 ALTER TABLE `proyecto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `regions`
 --
 
@@ -455,7 +537,7 @@ DROP TABLE IF EXISTS `regions`;
 CREATE TABLE `regions` (
   `cubigeo_regions` varchar(50) DEFAULT NULL,
   `cnombre` varchar(100) DEFAULT NULL,
-  `dfeccreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfeccreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `nestado` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -480,10 +562,10 @@ DROP TABLE IF EXISTS `servicio`;
 CREATE TABLE `servicio` (
   `nid_servicio` int(11) NOT NULL AUTO_INCREMENT,
   `cservicio` varchar(4000) DEFAULT NULL,
-  `dfechacreate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfechacreate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `nestado` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`nid_servicio`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -492,31 +574,35 @@ CREATE TABLE `servicio` (
 
 LOCK TABLES `servicio` WRITE;
 /*!40000 ALTER TABLE `servicio` DISABLE KEYS */;
-INSERT INTO `servicio` VALUES (1,'SANEAMIENTO INMOBILIARIO','2020-01-31 00:51:56',1),(2,'AUDITORIAS LEGALES','2020-01-30 02:02:04',1),(3,'ESTIUDIO LEGAL INMOBILIARIO','2020-01-30 02:02:04',1),(4,'PROCESOS JUDICIALES','2020-01-30 23:32:33',1),(5,'nj','2020-01-31 01:29:40',1),(6,'nj','2020-01-31 01:33:16',1),(7,'sdsaf','2020-01-31 01:42:11',1);
+INSERT INTO `servicio` VALUES (1,'ITSE-ELLF','2020-05-10 18:59:53',1),(2,'servicio z','2020-05-07 13:03:45',1),(3,'servicio h','2020-05-07 13:03:10',1),(4,'Saneamiento ante RR.PP Ley Nº 27157','2020-05-10 19:00:07',1),(5,'Acumulación','2020-05-10 19:00:23',1),(6,'Subdivisión','2020-05-10 19:00:34',1),(7,'Consultas','2020-05-10 19:00:47',1),(8,'Solicitudes','2020-05-10 19:00:57',1),(9,'Prescripción Adquisitiva Notarial','2020-05-10 19:01:07',1),(10,'Saneamiento ante el Ministerio de cultura','2020-05-10 19:01:18',1),(11,'Asesoría legal para la obtención de licencias','2020-05-10 19:01:27',1),(12,'SERVICIO A','2020-05-10 19:02:05',1),(13,'SERVICIO B','2020-05-10 19:02:19',1),(14,'Servicio C','2020-05-15 16:53:17',1);
 /*!40000 ALTER TABLE `servicio` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `servicioproceso`
+-- Table structure for table `servicioactividad`
 --
 
-DROP TABLE IF EXISTS `servicioproceso`;
+DROP TABLE IF EXISTS `servicioactividad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `servicioproceso` (
-  `nid_servicio` int(11) DEFAULT NULL,
-  `nid_proceso` int(11) DEFAULT NULL,
-  `nestado` tinyint(4) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `servicioactividad` (
+  `nid_servicioactividad` int(11) NOT NULL AUTO_INCREMENT,
+  `nid_procesoservicio` int(11) DEFAULT NULL,
+  `nid_actividad` int(11) DEFAULT NULL,
+  `ncodetapa` tinyint(4) DEFAULT NULL,
+  `nestado` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`nid_servicioactividad`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `servicioproceso`
+-- Dumping data for table `servicioactividad`
 --
 
-LOCK TABLES `servicioproceso` WRITE;
-/*!40000 ALTER TABLE `servicioproceso` DISABLE KEYS */;
-/*!40000 ALTER TABLE `servicioproceso` ENABLE KEYS */;
+LOCK TABLES `servicioactividad` WRITE;
+/*!40000 ALTER TABLE `servicioactividad` DISABLE KEYS */;
+INSERT INTO `servicioactividad` VALUES (1,1,1,1,1),(2,4,2,4,1),(3,5,3,1,1),(4,1,4,2,1),(5,15,5,1,1),(6,15,6,2,1),(7,15,7,6,1),(8,15,8,6,0),(9,7,9,4,1),(10,7,10,6,1),(11,7,11,6,1),(12,7,12,6,1),(13,7,13,3,1),(14,7,14,2,1),(15,7,15,2,1),(16,7,16,2,1),(17,7,17,2,1),(18,7,18,2,1),(19,7,19,4,1),(20,7,20,2,1),(21,15,21,1,1);
+/*!40000 ALTER TABLE `servicioactividad` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -529,10 +615,10 @@ DROP TABLE IF EXISTS `tipopersona`;
 CREATE TABLE `tipopersona` (
   `nid_tipopersona` int(11) NOT NULL AUTO_INCREMENT,
   `cpersona` varchar(100) DEFAULT NULL,
-  `dfeccreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfeccreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `nestado` int(11) DEFAULT NULL,
   PRIMARY KEY (`nid_tipopersona`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -541,7 +627,7 @@ CREATE TABLE `tipopersona` (
 
 LOCK TABLES `tipopersona` WRITE;
 /*!40000 ALTER TABLE `tipopersona` DISABLE KEYS */;
-INSERT INTO `tipopersona` VALUES (1,'ADMINISTRATIVO','2020-01-30 02:44:44',1);
+INSERT INTO `tipopersona` VALUES (1,'ADMINISTRATIVO','2020-01-30 02:44:44',1),(2,'CLIENTE','2020-05-14 08:11:25',1);
 /*!40000 ALTER TABLE `tipopersona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -555,7 +641,7 @@ DROP TABLE IF EXISTS `tipousuario`;
 CREATE TABLE `tipousuario` (
   `nid_tipousuario` int(11) NOT NULL AUTO_INCREMENT,
   `cusuario` varchar(50) DEFAULT NULL,
-  `dfeccreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `dfeccreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `nestado` int(11) DEFAULT NULL,
   PRIMARY KEY (`nid_tipousuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
@@ -592,7 +678,7 @@ CREATE TABLE `users` (
   `nestado` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -601,7 +687,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,1,1,'ramon','admin',NULL,'$2y$10$EnwzUa/oZxncUJ6QlocRcODAPugLAHHaJXB4LHPsx9LrglLXZxbXG','','2000-01-01 00:00:00','2010-01-01 00:00:00',1),(2,2,1,'VALENTIN PANDURO GARCIA','21312321',NULL,'$2y$10$Hqs1WAaPrVKC62d4.5Pdr.hf0AG3HUTl7GRPUf17AC.7hrp5L44OG','$2y$10$AQyB4tCjsl7SuZdgn4woV.EtzD.PJ8QI8YTtpOAzzp6OF9iPGzXpG','2020-01-30 02:45:29','2020-01-30 02:45:29',1);
+INSERT INTO `users` VALUES (1,1,1,'ramon','admin',NULL,'$2y$10$EnwzUa/oZxncUJ6QlocRcODAPugLAHHaJXB4LHPsx9LrglLXZxbXG','','2000-01-01 00:00:00','2010-01-01 00:00:00',1),(2,2,1,'VALENTIN PANDURO GARCIA','21312321',NULL,'$2y$10$Hqs1WAaPrVKC62d4.5Pdr.hf0AG3HUTl7GRPUf17AC.7hrp5L44OG','$2y$10$AQyB4tCjsl7SuZdgn4woV.EtzD.PJ8QI8YTtpOAzzp6OF9iPGzXpG','2020-01-30 02:45:29','2020-01-30 02:45:29',1),(3,3,1,'MAYRA VIVANCO CAHUANA','44197172',NULL,'$2y$10$/jOFxAwO6CcSOXSapwBb2.19R/GR3jivKF.MhVW/LvfXFtHILyNBm','$2y$10$/oK1AUQplayYDOxzZuoapen8CAjM9UHtqjJGk.Qy/yfMvAIzH9eey','2020-04-28 16:40:05','2020-04-28 16:40:05',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 

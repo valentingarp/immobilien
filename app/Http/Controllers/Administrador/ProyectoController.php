@@ -53,21 +53,81 @@ class ProyectoController extends Controller
         ->join('servicio as s','s.nid_servicio','=','ps.nid_servicio')
         ->join('proceso as p','p.nid_proceso','=','ps.nid_proceso')
         ->where('ps.nestado','=',1)
-        //->where('p.nid_proceso','=',$proceso)
         ->get();//dd($proser);
 
-
-       /*$actividad = DB::table('servicioactividad as sa')
-        ->join('procesoservicio as ps','ps.nid_procesoservicio','=','sa.nid_procesoservicio')
-        ->join('actividad as a','a.nid_actividad','=','sa.nid_actividad')
-        ->where('ps.nid_proceso','=',$proceso)
-        ->where('sa.nestado','=',1)
-        ->orderBy('sa.ncodetapa','asc')
-        ->get();//dd($actividad);*/
+    	$estadoproyecto = DB::table('estadoproyecto as ep')
+        ->where('ep.nestado','=',1)
+        ->get();//dd($proser);
+  
 
 
-    	return view('administrador.proyecto.create',['proser'=>$proser]);
+    	return view('administrador.proyecto.create',['proser'=>$proser,'estadoproyecto'=>$estadoproyecto]);
     }
 
 
+
+    /*----------------GET SERVICIOS PROCESOS AXIOS------------*/
+     public function servicio(Request $request){
+        $id_proceso =  $request->get('proceso_id');
+        $servicio = DB::table('procesoservicio as ps')
+        ->join('servicio as s','s.nid_servicio','=','ps.nid_servicio')
+        ->join('proceso as p','p.nid_proceso','=','ps.nid_proceso')
+        ->where('ps.nestado','=',1)
+        ->select('s.cservicio','s.nid_servicio','ps.nid_procesoservicio')
+        ->where('ps.nid_proceso','=',$id_proceso)
+        ->get();
+
+        return response()->json($servicio);
+
+    }
+
+
+    public function actividad(Request $request){
+        $id_proser =  $request->get('proser_id');
+
+        $actividad = DB::table('servicioactividad as sa')
+        ->join('actividad as a','a.nid_actividad','=','sa.nid_actividad')
+        ->join('constante as et','et.nvalor','=','sa.ncodetapa')
+       // ->select('sa.ncodetapa','a.cactividad')
+        ->select(DB::raw("CONCAT(cactividad,' ', et.cdescripcion) as cactividad"),'sa.nid_servicioactividad')
+        ->where('sa.nid_procesoservicio','=',$id_proser)
+        ->where('sa.nestado','=',1)
+         ->where('et.ncodconstante','=',4)//etapas
+        ->where('et.nvalor','>',0)
+        ->get();//dd($actividad);
+
+
+        return response()->json($actividad);
+    }
+
+    public function store(Request $request){
+        //print_r($_POST);exit();
+        $pro = new Proyecto();
+        $pro->cproyecto = $_POST['cnombre'];
+        $pro->nid_cliente = $_POST['nid_persona'];
+        $pro->nid_procesoservicio = $_POST['servicio'];
+        $pro->nid_servicioactividad = $_POST['actividad'];
+        $pro->nid_estadoproyecto = $_POST['estado'];
+        $pro->nestado = 1;
+        $pro->save();
+        return $this->index($request);
+    }
+
+    public function buscacliente(Request $request){
+        if ($request->get('query')) {
+
+            $query = $request->get('query');
+            $data = DB::table('persona as pe')
+            ->where(DB::raw("CONCAT(pe.capaterno,' ',pe.camaterno)"), 'LIKE', "%".$query."%")
+            ->where('pe.nestado','>=',1)
+            ->get();
+            
+            $output = '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="iddropdownmenu" style="display:block; position:absolute">';
+            foreach ($data as $row) {
+                $output.='<a class="dropdown-item idlist" href="#" ><span style="display: none;">'.$row->nid_persona.' </span>'.$row->cnombre.' '.$row->capaterno.' '.$row->camaterno.'</a>';
+            }
+            $output.= '</div>';
+            echo $output;
+        }
+    }
 }

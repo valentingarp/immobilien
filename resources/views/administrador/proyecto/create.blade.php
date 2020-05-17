@@ -54,31 +54,62 @@
 				<div class="form-group row">
 					<label for="Nombre" class="col-sm-2 col-form-label">* Proceso:</label>
 					<div class="col-sm-4">
-						<select name="region_domicilio" id="regiondo" class="form-control" required="">
+						<select name="proceso" id="procesodo" class="form-control" required="">
 			              <option value="">========== seleccione =========</option>
 			              <?php for($i=0;$i<sizeof($proser);$i++){
 			                ?>
-			              <option value="{{$proser[$i]->nid_procesoservicio}}">{{$proser[$i]->cproceso}}</option>
+			              <option value="{{$proser[$i]->nid_proceso}}">{{$proser[$i]->cproceso}}</option>
 			                <?php
 			              }?>
 			            </select>
 					</div>
 					<label for="Nombre" class="col-sm-2 col-form-label">* Servicio:</label>
 					<div class="col-sm-4">
-						<select name="provincia_domicilio" id="provinciado" class="form-control" required="">
+						<select name="servicio" id="serviciodo" class="form-control" required="">
 			              <option value="">========== seleccione =========</option>
 			            </select>
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="Nombre" class="col-sm-2 col-form-label">* Etapa:</label>
+					<label for="Nombre" class="col-sm-2 col-form-label">* Actividad:</label>
 					<div class="col-sm-4">
-						<select name="distrito_domicilio" id="distritodo" class="form-control" required="">
+						<select name="actividad" id="actdo" class="form-control" required="">
 			              <option value="">========== seleccione =========</option>
 			            </select>
 					</div>
 
+
+
+					<label for="Nombre" class="col-sm-2 col-form-label">* Estado:</label>
+					<div class="col-sm-4">
+						<select name="estado" id="procesodo" class="form-control" required="">
+			              <option value="">========== seleccione =========</option>
+			              <?php for($i=0;$i<sizeof($estadoproyecto);$i++){
+			                ?>
+			              <option value="{{$estadoproyecto[$i]->nid_estadoproyecto}}">{{$estadoproyecto[$i]->cestadoproyecto}}</option>
+			                <?php
+			              }?>
+			            </select>
+					</div>
+
 				</div>
+
+			<div class="form-group row">
+					<label for="Nombre" class="col-sm-2 col-form-label">* Cliente:</label>
+					<div class="col-sm-4">
+						<input type="text" id="Idcliente" class="form-control" required="" placeholder="Buscar cliente">
+						  	<div id="list_cliente" class="col-md-2" >
+					    	
+					    	</div> 
+					</div>
+					<div class="col-sm-1">
+						<a href="#" title="Limpiar" id="Idlimpiar"><i class="fas fa-eraser text-danger" style="font-size: 15pt;"></i></a>
+					</div>
+
+					<input type="hidden" id="input_idpersona" name="nid_persona">
+
+				</div>
+		
 
 <br>
 				<div class="row">
@@ -107,32 +138,78 @@
 
 
 	  //SELECT DINAMICOS
-  /*-------------------regiones de domicilio---------------*/
-	$('#regiondo').on('change',function(e){
+  /*-------------------procesos y servicios actividades etapa---------------*/
+	$('#procesodo').on('change',function(e){
 	  console.log(e);
-	  var region_id = e.target.value;
-	  $.get('/administrador/json_provincia?region_id=' + region_id,function(data){
-	    $('#provinciado').empty();
-	    $('#provinciado').append('<option value="" selected="true">====== Seleccione =====</option>');
-	    $.each(data,function(create,provinciaObj){
-	      $('#provinciado').append('<option value="'+provinciaObj.cubigeo_provinces+'">'+provinciaObj.nomprovincia+'</option>')
+	  var proceso_id = e.target.value;
+	  $.get('/administrador/json_servicio?proceso_id=' + proceso_id,function(data){
+	    $('#serviciodo').empty();
+	    $('#serviciodo').append('<option value="" selected="true">====== Seleccione =====</option>');
+	    $.each(data,function(create,servicioObj){
+	      $('#serviciodo').append('<option value="'+servicioObj.nid_procesoservicio+'">'+servicioObj.cservicio+'</option>')
 	    });
 	  });
 	  
 	});
 
-	$('#provinciado').on('change',function(e){
+
+	$('#serviciodo').on('change',function(e){
 	  console.log(e);
-	  var provincia_id = e.target.value;
-	  $.get('/administrador/json_distrito?provincia_id=' + provincia_id,function(data){
-	    $('#distritodo').empty();
-	    $('#distritodo').append('<option value="" selected="true">====== Seleccione =====</option>');
-	    $.each(data,function(create,distritoObj){
-	      $('#distritodo').append('<option value="'+distritoObj.cubigeo_districts+'">'+distritoObj.nomdistrito+'</option>')
+	  var proser_id = e.target.value;
+	  $.get('/administrador/json_actividad?proser_id=' + proser_id,function(data){
+	    $('#actdo').empty();
+	    $('#actdo').append('<option value="" selected="true">====== Seleccione =====</option>');
+	    $.each(data,function(create,actividadObj){
+	      $('#actdo').append('<option value="'+actividadObj.nid_servicioactividad+'">'+actividadObj.cactividad+'</option>')
 	    });
 	  });
 	  
 	});
-	/*-------------------FIN--regiones de domicilio---------------*/
+
+
+
+
+
+	/*-------------------FIN-----------------*/
+
+$(document).ready(function(){//alert('this');
+	$('#Idcliente').keyup(function(){//alert('aca');
+		var query = $(this).val();
+		if (query != '') {
+			var _token = $('input[name="_token"]').val();
+			$.ajax({
+				url:"{{route('administrador.proyecto.create')}}",
+				method:"POST",
+				data:{query:query,_token:_token},
+				success:function(data){
+					$('#list_cliente').fadeIn();
+					$('#list_cliente').html(data);
+				}
+			});
+		}
+	});
+
+	$(document).on('click','.idlist',function(){
+		var texto = $(this).text();
+		var string = texto.split(' ');
+		var idestudiante = string[0];
+
+		$('#Idcliente').val(string[1]+' '+string[2]+' '+string[3]);
+		$('#input_idpersona').val(string[0]);
+		$('#list_dni').fadeOut();
+		$("#Idcliente").prop("readonly",true);
+	});
+	
+	$(document).click(function() {
+    	$('#iddropdownmenu').fadeOut(300);
+	});
+
+	$(document).on('click','#Idlimpiar',function(){
+		//alert('aca');
+		$('#Idcliente').val('');
+		$("#Idcliente").prop("readonly",false);
+		$('#input_idpersona').val();
+	});	
+});
 </script>
 @endpush

@@ -430,6 +430,7 @@
     <script src="{{asset('js/perfect-scrollbar.min.js')}}"></script>
     <script src="{{asset('js/coreui.js')}}"></script>
     <script src="{{asset('js/funciones.js')}}"></script>
+    <script src="{{asset('js/easy-autocomplete.js')}}"></script>
     <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
     <script src="{{asset('js/sweetalert.min.js')}}"></script> 
     @stack('scripts')

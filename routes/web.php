@@ -38,4 +38,7 @@ Route::group(['middleware'=>'auth','middleware'=>'Admin'],function(){
 	Route::post('/administrador/changepass','HomeController@changepass');
 	Route::resource('administrador/procesofase','Administrador\ProcesoFaseController');
 	Route::resource('administrador/proyecto','Administrador\ProyectoController');
+	Route::get('administrador/json_servicio','Administrador\ProyectoController@servicio');
+	Route::get('administrador/json_actividad','Administrador\ProyectoController@actividad');
+	Route::post('administrador/proyecto/create','Administrador\ProyectoController@buscacliente')->name('administrador.proyecto.create');
 });
