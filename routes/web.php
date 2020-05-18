@@ -41,4 +41,5 @@ Route::group(['middleware'=>'auth','middleware'=>'Admin'],function(){
 	Route::get('administrador/json_servicio','Administrador\ProyectoController@servicio');
 	Route::get('administrador/json_actividad','Administrador\ProyectoController@actividad');
 	Route::post('administrador/proyecto/create','Administrador\ProyectoController@buscacliente')->name('administrador.proyecto.create');
+	Route::get('/autocompletepersonal', array('as' => 'autocompletepersonal', 'uses'=>'Administrador\ProyectoController@buscapersonal'));
 });

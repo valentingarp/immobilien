@@ -35,6 +35,35 @@
     </div>
 @endif
 
+<style type="text/css">
+  
+
+  /* Styles for wrapping the search box */
+
+.main {
+    width: 50%;
+    margin: 50px auto;
+}
+
+/* Bootstrap 4 text input with search icon */
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+</style>
+
 <div class="row">
   <div class="col-md-12">
         
@@ -108,6 +137,33 @@
 
 					<input type="hidden" id="input_idpersona" name="nid_persona">
 
+			  </div>
+
+			  <div class="form-group row">
+
+			  <div class="col-sm-6">    
+			      <div class="input-group has-search has-success">
+			          <input type="text" id="searchper" class="form-control " placeholder="Buscar Personal...">
+			           <span class="fa fa-search form-control-feedback"></span>
+			      </div>
+			  </div>
+			  	
+
+			  </div>
+				<div class="table-responsive">
+				  <table class="table table-sm table-bordered" id="tableconcepto">
+				    <thead style="background: #367AA5;color: #FFFFFF">
+				      <tr>
+				        <th>Nombre</th>
+				        <th style="text-align:right">Apellido Paterno</th>
+				        <th style="text-align: center;">Apellido Materno</th>
+				        <th>Opciones</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+				      
+				    </tbody>
+				  </table>
 				</div>
 		
 
@@ -211,5 +267,82 @@ $(document).ready(function(){//alert('this');
 		$('#input_idpersona').val();
 	});	
 });
+</script>
+@endpush
+@push('scripts')
+<script>
+var total = 0;
+var options = {
+    
+
+    url: "{{route('autocompletepersonal')}}",
+
+     getValue: function(element) {
+            return element.cnombre + " " + element.capaterno + " " + element.camaterno;
+            },
+
+    template: {
+        type: "description",
+        fields: {
+            description: "cnombre"
+        }
+    },
+
+    list: {
+        match: {
+            enabled: true
+        }, onChooseEvent: function() {
+
+        		//alert('hh');
+          var nid_persona = $("#searchper").getSelectedItemData().nid_persona;
+          var cnombre = $("#searchper").getSelectedItemData().cnombre;
+          var capaterno = $("#searchper").getSelectedItemData().capaterno;
+          var camaterno = $("#searchper").getSelectedItemData().camaterno;             
+          $("#nid_persona").val(nid_persona).trigger("change");
+          $("#cnombre").val(cnombre).trigger("change");
+          $("#capaterno").val(capaterno).trigger("change");
+          $("#camaterno").val(camaterno).trigger("change");
+           $("#searchtasa").val("").trigger("change");
+           var idpersona = document.getElementsByClassName("idpersona");
+           var nval=0;
+           	//alert('hh');
+            for(i=0;i<idpersona.length;i++){
+              if (nid_persona==idpersona[i].value) {
+                  nval=1;
+              }
+            
+            }
+
+          if (nval==0) {
+          $('#tableconcepto > tbody:last-child').append('<tr><td><input type="hidden" name="nid_personal[]" value="'+nid_persona+'" class="idpersona">'+cnombre+'</td><td style="text-align: right;font-weight: bold;font-size:13pt"><input type="hidden" name="capaterno[]" value="'+nid_persona+'" >'+capaterno+'</td><td style="text-align:center">'+camaterno+'</td><td style="text-align:center"><button class="btn btn-sm btn-warning" onclick="borrar('+1+',this);" type="button">Limpiar</button></td></tr>');
+          //i++;
+          }
+
+          //$('#pagar').prop('disabled',false); 
+       
+          
+
+        }
+        
+    },
+
+
+    theme: "plate-dark"
+};
+
+$("#searchper").easyAutocomplete(options);
+
+
+
+  function borrar(costo,eto){
+    //alert(eto);
+    eto.closest('tr').remove();
+    var cnombre = parseFloat(document.getElementById("montopagar").innerText);
+    var resta = parseFloat(monto) - parseFloat(costo);
+    document.getElementById("montopagar").innerHTML = resta.toFixed(2);
+
+    var count = document.getElementById("tableconcepto").rows.length;
+    if (count == 1) {$('#pagar').prop('disabled',true); } //disable si no hay ninguna fila pa cobrar
+  }
 </script>
 @endpush

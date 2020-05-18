@@ -33,6 +33,7 @@ class ProyectoController extends Controller
         ->join('persona as pe','pe.nid_persona','=','p.nid_cliente')
         ->where('cproyecto', 'LIKE', "%".$search."%")        
         ->where('p.nestado','=',1)
+        ->where('pe.nid_tipopersona','=',2)
         ->paginate(20);
 
 
@@ -110,17 +111,36 @@ class ProyectoController extends Controller
         $pro->nid_estadoproyecto = $_POST['estado'];
         $pro->nestado = 1;
         $pro->save();
+
+ for ($i=0; $i < sizeof($_POST['nid_personal']); $i++) { 
+        $proper = new PermisoProyecto();
+        $proper->nid_persona = $_POST['nid_personal'][$i];
+        $proper->nestado = 1;
+        $proper->save();
+
+}
         return $this->index($request);
     }
 
     public function buscacliente(Request $request){
         if ($request->get('query')) {
 
-            $query = $request->get('query');
+         $query = $request->get('query');
+         /*   
             $data = DB::table('persona as pe')
             ->where(DB::raw("CONCAT(pe.capaterno,' ',pe.camaterno)"), 'LIKE', "%".$query."%")
             ->where('pe.nestado','>=',1)
-            ->get();
+            ->get();*/ // comentado 
+
+
+
+         $data = DB::table('persona as p')
+        ->join('tipopersona as tp','tp.nid_tipopersona','=','p.nid_tipopersona')
+        ->join('documentopersona as dp','dp.nid_persona','=','p.nid_persona')
+        ->where(DB::raw("CONCAT(p.capaterno,' ',p.camaterno,' ',p.cnombre)"), 'LIKE', "%".$query."%")
+        ->where('p.nestado','=',1)
+        ->where('p.nid_tipopersona','=',2)
+        ->get();
             
             $output = '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="iddropdownmenu" style="display:block; position:absolute">';
             foreach ($data as $row) {
@@ -129,5 +149,22 @@ class ProyectoController extends Controller
             $output.= '</div>';
             echo $output;
         }
+    }
+
+        public function buscapersonal(Request $request){
+       
+
+        $query = $request->get('query');
+
+         $data = DB::table('persona as p')
+        ->join('tipopersona as tp','tp.nid_tipopersona','=','p.nid_tipopersona')
+        ->join('documentopersona as dp','dp.nid_persona','=','p.nid_persona')
+        ->where(DB::raw("CONCAT(p.capaterno,' ',p.camaterno,' ',p.cnombre)"), 'LIKE', "%".$query."%")
+        ->where('p.nestado','=',1)
+        ->where('p.nid_tipopersona','=',1)
+        ->get();
+
+         return $data;
+           
     }
 }

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{asset('css/imgloading.css')}}">
      <link href="{{asset('css/solid.css')}}" rel="stylesheet">
     <link href="{{asset('css/css.css')}}" rel="stylesheet">
+    <link href="{{asset('css/easy-autocomplete.css')}}" rel="stylesheet">
     <link rel="shortcut icon" href="{{asset('img/logofunde2.png')}}">
   </head>
   <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
